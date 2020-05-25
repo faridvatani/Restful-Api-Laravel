@@ -41,6 +41,7 @@ $factory->define(\App\Episode::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence(),
         'body' => $faker->paragraph(),
-        'videoUrl' => $faker->randomElement(['https://www.radiantmediaplayer.com/media/bbb-360p.mp4','https://media.w3.org/2010/05/sintel/trailer.mp4']),
+        'videoUrl' => $faker->randomElement(['https://www.radiantmediaplayer.com/media/bbb-360p.mp4',
+            'https://media.w3.org/2010/05/sintel/trailer.mp4']),
     ];
 });
