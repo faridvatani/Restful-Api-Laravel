@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,12 +49,32 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return bool|\Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+            return $this->NotFoundExceptionMessage($request, $exception);
+        }
         return parent::render($request, $exception);
+    }
+
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param $exception
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws Throwable
+     */
+    public function NotFoundExceptionMessage(\Illuminate\Http\Request $request, $exception)
+    {
+        return $request->expectsJson()
+            ? new JsonResponse([
+                'data' => 'Not Found',
+                'status' => '404'
+            ], Response::HTTP_NOT_FOUND)
+            : parent::render($request, $exception);
     }
 }
