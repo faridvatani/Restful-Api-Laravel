@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('v1')->namespace('api\v1')->group(function (){
     Route::get('/courses', 'CourseController@index');
+    Route::post('/courses', 'CourseController@store');
     Route::get('/courses/{course}', 'CourseController@single');
 });
 
