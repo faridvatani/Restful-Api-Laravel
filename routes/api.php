@@ -18,10 +18,16 @@ Route::prefix('v1')->namespace('api\v1')->group(function (){
     Route::post('/courses', 'CourseController@store');
     Route::get('/courses/{course}', 'CourseController@single');
 
-
     Route::post('login', 'UserController@login');
     Route::post('register', 'UserController@register');
 
+    Route::middleware('auth:api')->group(function (){
+        // har route dar inja bashad niyaz be auth darad
+        Route::get('/user', function () {
+            return Auth()->user();
+        });
+        Route::post('comment', 'CommentController@store');
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

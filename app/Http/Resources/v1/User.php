@@ -18,6 +18,7 @@ class User extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'remember_token' => $this->remember_token,
+            'api_token' => $this->api_token,
             'Createdat' => jdate($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }

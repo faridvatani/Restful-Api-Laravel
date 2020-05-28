@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\v1\User as UserResource;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -38,6 +39,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $validData['name'],
             'email' => $validData['email'],
+            'api_token' => Str::random(100),
             'password' => bcrypt($validData['password']),
         ]);
 
