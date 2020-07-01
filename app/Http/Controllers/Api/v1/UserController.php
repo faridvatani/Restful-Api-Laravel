@@ -24,7 +24,16 @@ class UserController extends Controller
                 'status' => 'error'
             ],403);
         }
-        return new UserResource(auth()->user());
+        // update token for every login
+//        auth()->user()->update([
+//            'api_token' => Str::random(100),
+//        ]);
+
+        //use one token for every users
+//        auth()->user()->tokens()->delete();
+
+        $token = auth()->user()->createToken('api token for android')->accessToken;
+        return new UserResource(auth()->user(), $token);
     }
 
     public function register(Request $request)
