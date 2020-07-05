@@ -27,6 +27,8 @@ Route::prefix('v1')->namespace('api\v1')->group(function (){
             return Auth()->user();
         });
         Route::post('comment', 'CommentController@store');
+        Route::post('upload/image', 'UploadController@image');
+        Route::post('upload/file', 'UploadController@file');
     });
 });
 
