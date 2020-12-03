@@ -35,6 +35,9 @@ Route::prefix('v1')->namespace('api\v1')->group(function (){
 Route::prefix('v2')->namespace('api\v2')->group(function (){
     Route::get('/courses', 'CourseController@index');
     Route::get('/courses/{course}', 'CourseController@single');
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/courses/buy/{course}', 'BuyController@buy');
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -30,9 +30,8 @@ class UserController extends Controller
 //        ]);
 
         //use one token for every users
-//        auth()->user()->tokens()->delete();
+        $token = $this->createToken();
 
-        $token = auth()->user()->createToken('api token for android')->accessToken;
         return new UserResource(auth()->user(), $token);
     }
 
@@ -51,7 +50,17 @@ class UserController extends Controller
             'api_token' => Str::random(100),
             'password' => bcrypt($validData['password']),
         ]);
+        auth()->login($user);
+        $token = $this->createToken();
+        return new UserResource($user , $token);
+    }
 
-        return new UserResource($user);
+    /**
+     * @return mixed
+     */
+    public function createToken()
+    {
+        auth()->user()->tokens()->delete();
+        return auth()->user()->createToken('api token for android')->accessToken;
     }
 }
